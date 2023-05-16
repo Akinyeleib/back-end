@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in messages %}
+    <h3>{{message}}</h3>
+{% endfor %}
+
+<h1>EDIT BLOG</h1>
+
+<div>
+
+    {% if user.is_authenticated %}
+        <form action="{{article.id}}" method="post">
+            {% csrf_token %}
+            <div>
+                <h3>Title:</h3>
+                <input type="text" name="title" maxlength="100" value="{{article.title}}" >
+                <h3>Date Posted: {{article.date}}</h3>
+                <div>
+                    <textarea name="content" cols="150" rows="20">{{article.content}}</textarea>
+                </div>
+                <input type="submit" value="Submit Changes">
+            </div>
+        </form>
+
+    {% else %}
+
+        <h3>You have to <a href="/blog/login">sign in</a> to complete this action</h3>
+
+    {% endif %}
+
+</div>
+
+
+{% endblock %}

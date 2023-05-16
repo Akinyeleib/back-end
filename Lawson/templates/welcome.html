@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <nav>
+        <ul>
+            {% if user.is_authenticated %}
+                <li><a href="/blog/logout">Log out</a></li>
+                <li><a href="/blog/profile">Profile</a></li>
+            {% else %}
+                <li><a href="/blog/register">Register</a></li>
+                <li><a href="/blog/login">Sign In</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <h1>WELCOME - ALL BLOGS</h1>
+
+    {% if user.is_authenticated %}
+        <h3>Hello {{user.first_name}}</h3>
+    {% else %}
+    <h3>Hello {{user}}</h3>
+    {% endif %}
+
+    {% for article in articles reversed %}
+            <div class="container">
+                <h3>Title: {{article.title}}</h3>
+                <h3>Author: {{article.author}}</h3>
+                <h3>Date Posted: {{article.date}}</h3>
+                <p>
+                    {{article.content | truncatewords:25}}
+                </p>
+                <br>
+                {% if article.author == user.username %}
+                <a class="link" href="post/{{article.id}}">Click here to edit</a>
+                {% endif %}
+            </div>
+        
+
+    {% endfor %}
+
+
+{% endblock %}
